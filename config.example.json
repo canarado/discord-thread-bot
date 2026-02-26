@@ -1,0 +1,31 @@
+[
+    {
+        "channelIds": [
+            "YOUR_CHANNEL_ID_HERE"
+        ],
+        "filter": {
+            "messageFilter": "create thread",
+            "fileFilter": "*.gbx"
+        },
+        "title": {
+            "content": "{file} thread"
+        },
+        "postMessage": {
+            "content": "New thread for {file} by {author}"
+        }
+    },
+    {
+        "channelIds": [
+            "YOUR_CHANNEL_ID_HERE"
+        ],
+        "filter": {
+            "fileFilter": "*.png"
+        },
+        "title": {
+            "content": "Image: {file}"
+        },
+        "postMessage": {
+            "content": "Image posted by <@{authorId}>"
+        }
+    }
+]
