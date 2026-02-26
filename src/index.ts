@@ -32,6 +32,7 @@ async function main() {
 
   try {
     await configLoader.load('./config.json');
+    configLoader.enableHotReload();
     console.log('Configuration loaded successfully');
   } catch (error) {
     console.error('Failed to load config.json:', error);

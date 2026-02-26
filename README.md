@@ -37,7 +37,7 @@ npm run dev
 
 ## Configuration
 
-The bot uses a JSON configuration file (`config.json`) that defines an array of thread creation rules.
+The bot uses a JSON configuration file (`config.json`) that defines an array of thread creation rules. Configuration is hot-reloadable, no downtime needed.
 
 ### Basic Structure
 
@@ -83,7 +83,7 @@ Configuration for thread title.
 
 Configuration for the initial message posted in the thread. If omitted, no message will be posted.
 
-- `content`: Template string for the message
+- `content`: Template string for the message (see Template Variables below)
 - `customContent`: Path to custom message generation script
 
 ### Template Variables

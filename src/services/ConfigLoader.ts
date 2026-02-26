@@ -1,15 +1,18 @@
-import { existsSync } from 'fs';
+import { existsSync, watch } from 'fs';
 import { readFile } from 'fs/promises';
 import { ThreadConfig, ThreadConfigList } from '../domain/models/ThreadConfig';
 
 export class ConfigLoader {
   private configs: ThreadConfigList = [];
+  private configPath: string = '';
+  private reloadTimeout: NodeJS.Timeout | null = null;
 
   async load(configPath: string): Promise<void> {
     if (!existsSync(configPath)) {
       throw new Error(`Configuration file not found: ${configPath}`);
     }
 
+    this.configPath = configPath;
     const content = await readFile(configPath, 'utf-8');
     const parsed = JSON.parse(content);
 
@@ -19,6 +22,32 @@ export class ConfigLoader {
 
     this.validateConfigs(parsed);
     this.configs = parsed;
+  }
+
+  enableHotReload(): void {
+    if (!this.configPath) {
+      throw new Error('Cannot enable hot reload before loading config');
+    }
+
+    console.log(`Watching ${this.configPath} for changes`);
+
+    watch(this.configPath, async eventType => {
+      if (eventType === 'change') {
+        if (this.reloadTimeout) {
+          clearTimeout(this.reloadTimeout);
+        }
+
+        this.reloadTimeout = setTimeout(async () => {
+          try {
+            console.log('Config file changed, reloading...');
+            await this.load(this.configPath);
+            console.log('Configuration reloaded successfully');
+          } catch (error) {
+            console.error('Failed to reload config (keeping previous config):', error);
+          }
+        }, 100);
+      }
+    });
   }
 
   private validateConfigs(configs: unknown[]): asserts configs is ThreadConfigList {
