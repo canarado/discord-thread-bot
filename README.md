@@ -126,28 +126,3 @@ export default async function (context: TemplateContext) {
   return `Custom title for ${context.fileName}`;
 }
 ```
-
-## Project Structure
-
-```
-src/
-├── domain/
-│   └── models/        Domain models and type definitions
-├── events/            Discord event handlers
-├── services/          Core business logic services
-└── index.ts           Application entry point
-```
-
-## Development
-
-The project uses TypeScript with strict typing enabled. Key architectural decisions:
-
-- Domain models define clear boundaries between concerns
-- Services encapsulate business logic
-- Event handlers remain thin and delegate to services
-- Commands follow a consistent pattern for admin checks
-  Zero on-disk storage except for configuration file
-
-## License
-
-ISC
